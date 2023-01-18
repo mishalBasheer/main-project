@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AdminLoginFormComponent implements OnInit {
 
   constructor() { }
-
+  hide = true;
   ngOnInit(): void {
   }
 
