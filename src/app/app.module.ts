@@ -3,8 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -22,7 +23,7 @@ import { AdminHomeComponent } from './components/admin-home/admin-home.component
     UserLoginFormComponent,
     AdminLoginFormComponent,
     UserHomeComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,8 +33,9 @@ import { AdminHomeComponent } from './components/admin-home/admin-home.component
     FormsModule,
     FlexLayoutModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
