@@ -1,29 +1,49 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const { async } = require("rxjs");
+const jwt = require("jsonwebtoken");
 
+
+//Creating new user and encrypting the password and storing it in the database
 const newUser = async (req, res) => {
-  const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
-  console.log(salt);
-  console.log(hashedPassword);
-  const { name, email, mobile } = req.body;
-  await User.create({ name, email, mobile, password: hashedPassword });
-  res.json({ message: "new User added successfully" });
+  try {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const { name, email, mobile } = req.body;
+    const result = await User.create({
+      name,
+      email,
+      mobile,
+      password: hashedPassword,
+    });
+    res.json({ message: "new User added successfully", result });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "error occured while adding a new user", error: err });
+  }
 };
-const loginCheck = async(req, res, next) => {
-    try {
-      const user = await User.findOne({ mobile: req.body.mobile });
-      if (user == null)
-        return res.status(400).json({ message: "cannot find user" });
-      if (await bcrypt.compare(req.body.password, user.password)) {
-        res.json({ message: "successfully signed in" });
-      } else {
-        res.json({ message: "not allowed" });
-      }
-    } catch (err) {
-      res.status(403).json({ error: err });
+
+//Authenticating User details while login
+const loginCheck = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ mobile: req.body.mobile });
+    if (!user) return res.status(401).json({ message: "cannot find user" });
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      //Generating token after user password is authenticated (JWT)
+      const token = jwt.sign(
+        { name: user.name, userid: user._id },
+        process.env.JWT_SECRET_KEY,
+        {
+          expiresIn: "1h",
+        }
+      );
+      res.status(200).json({ token });
+    } else {
+      res.status(401).json({ message: "wrong password" });
     }
+  } catch (err) {
+    res.status(403).json({ error: err });
+  }
 };
 
 module.exports = {

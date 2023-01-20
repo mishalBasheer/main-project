@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserDetailsService } from 'src/app/services/user-details.service';
-import { User } from '../user.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-signup-form',
@@ -14,6 +14,8 @@ export class UserSignupFormComponent implements OnInit {
   ngOnInit(): void {}
   onAddUser(userData: NgForm) {
     if(userData.invalid)return;
-    this.userService.addUser(userData.value);
+    this.userService.addUser(userData.value).subscribe((response)=>{
+      console.log(response);
+    });
   }
 }

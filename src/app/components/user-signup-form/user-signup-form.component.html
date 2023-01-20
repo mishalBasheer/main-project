@@ -12,18 +12,10 @@
           placeholder="Full Name" 
           name="name"
           ngModel
+          #name="ngModel"
           required
            />
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <input 
-          matInput 
-          type="email"
-          placeholder="Email"
-          name="email"
-          ngModel
-          required
-           />
+           <mat-error *ngIf="name.invalid">Please Enter a valid Name</mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <input 
@@ -32,8 +24,11 @@
           placeholder="Mobile"
           name="mobile"
           ngModel
+          #mobileInput="ngModel"
           required
+          minlength="6"
            />
+           <mat-error *ngIf="mobileInput.invalid">Please Enter a valid mobile</mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Enter your password</mat-label>
@@ -45,6 +40,7 @@
           required
           minlength="6"
           />
+          <mat-error *ngIf="name.invalid">Please enter a Strong password</mat-error>
         </mat-form-field>
       </mat-card-content>
       <button
