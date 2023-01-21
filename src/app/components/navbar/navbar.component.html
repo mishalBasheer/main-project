@@ -2,5 +2,8 @@
 <mat-toolbar>
   <span>DAMN-CODE</span>
   <span class="example-spacer"></span>
+  <button mat-button *ngIf="!userIsAuthenticted" routerLink="/signup">SignUp</button>
+  <button mat-button *ngIf="!userIsAuthenticted" routerLink="/">Login</button>
+  <button mat-button *ngIf="userIsAuthenticted" (click)="userLogout()">Logout</button>
 </mat-toolbar>
 </nav>
